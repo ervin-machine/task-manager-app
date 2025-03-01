@@ -33,9 +33,8 @@ const login = catchAsync(async (req, res) => {
 });
 
 const googleLogin = catchAsync(async (req, res) => {
-  try {
-    const { credential, client_id } = req.body;
-    const user = await authService.loginWithGoogleAuth(credential, client_id);
+    const { credential} = req.body;
+    const user = await authService.loginWithGoogleAuth(credential);
     const tokens = await tokenService.generateAuthTokens(user);
 
     res.cookie("refreshToken", tokens.refresh.token, {
@@ -44,10 +43,6 @@ const googleLogin = catchAsync(async (req, res) => {
       sameSite: "Strict",
     });
     res.send({ user, tokens });
-  } catch(err) {
-    console.log("Error", err)
-    res.status(status.INTERNAL_SERVER_ERROR).send("Failed to authorize with google", err)
-  }
 })
 
 const logout = catchAsync(async (req, res) => {
@@ -64,20 +59,12 @@ const logout = catchAsync(async (req, res) => {
 const refreshTokens = catchAsync(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
-  if (!refreshToken) {
-    return res.status(401).json({ message: "Refresh token not found" });
-  }
-
   const tokens = await authService.refreshAuth(refreshToken);
   res.send({ ...tokens });
 });
 
 const getMe = catchAsync(async (req, res) => {
   const refreshToken = req.cookies.refreshToken; // Get refresh token from cookie
-
-  if (!refreshToken) {
-      return res.status(401).json({ message: "Not authenticated" });
-  }
 
   const tokenDoc = await tokenService.getTokenDoc(refreshToken)
 

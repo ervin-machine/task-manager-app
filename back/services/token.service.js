@@ -78,6 +78,7 @@ const isTokenExpired = (tokenDoc) => {
 };
 
 const getTokenDoc = async (refreshToken) => {
+
    const tokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH });
 
    if (!tokenDoc) {
