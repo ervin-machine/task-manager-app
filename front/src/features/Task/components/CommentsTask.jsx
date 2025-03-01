@@ -8,7 +8,7 @@ function CommentsTask(props) {
   const { t } = useTranslation();
 
   const handleSubmit = async (values, { resetForm }) => {
-      await addComment({ id: task._id, comment: values.comment})
+      await addComment({ taskId: task._id, content: values.comment})
       resetForm();
   };
   return (

@@ -27,7 +27,7 @@ const getTasks = catchAsync(async(req, res) => {
 
 const getTask = catchAsync(async(req, res) => {
     try {   
-        const task = await taskService.getTask(req.params)
+        const task = await taskService.getTask(req.params.taskId)
         res.status(status.OK).json({ task });
     } catch (err) {
         console.log("Error", err)
@@ -37,7 +37,7 @@ const getTask = catchAsync(async(req, res) => {
 
 const deleteTask = catchAsync(async(req, res) => {
     try {
-        const deletedTask = await taskService.deleteTask(req.params)
+        const deletedTask = await taskService.deleteTask(req.params.taskId)
         res.status(status.OK).json({ deletedTask: deletedTask })
     } catch (err) {
         console.log("Error", err)
@@ -47,8 +47,8 @@ const deleteTask = catchAsync(async(req, res) => {
 
 const updateTask = catchAsync(async(req, res) => {
     try {
-        const updatedTask = await taskService.updateTask(req.params.userId, req.body)
-        res.status(status.OK).json({ updatedTask: updatedTask })
+        const updatedTask = await taskService.updateTask(req.params.taskId, req.body)
+        res.status(status.OK).json(updatedTask)
     } catch (err) {
         console.log("Error", err)
         res.status(status.INTERNAL_SERVER_ERROR).send("Failed to update task", err)
@@ -57,7 +57,7 @@ const updateTask = catchAsync(async(req, res) => {
 
 const addComment = catchAsync(async(req, res) => {
     try {
-        const comment = await taskService.addComment(req.body)
+        const comment = await taskService.addComment(req.params.taskId, req.body.content)
         res.status(status.OK).json({ comment: comment })
     } catch (err) {
         console.log("Error", err)

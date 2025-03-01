@@ -43,11 +43,11 @@ export const loginUser = (existingUser) => {
     };
 };
 
-export const googleAuth = (clientID, credential) => {
+export const googleAuth = (credential) => {
     return async (dispatch) => {
         dispatch(authRequest(types.LOGIN_USER_REQUEST));
         try {
-            const response = await googleLogin(clientID, credential);
+            const response = await googleLogin(credential);
             const { tokens, user } = response.data;
             
             dispatch(authSuccess(types.LOGIN_USER_SUCCESS, { token: tokens.access, user }));

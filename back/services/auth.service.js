@@ -6,7 +6,7 @@ const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
 const { OAuth2Client } = require('google-auth-library');
 const { User } = require('../models');
-
+const { GOOGLE_CLIENT_ID } = require("../config/dotenv")
 const client = new OAuth2Client();
 
 const loginUserWithEmailAndPassword = async (email, password) => {
@@ -23,10 +23,10 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   return user;
 };
 
-const loginWithGoogleAuth = async (credential, clientId) => {
+const loginWithGoogleAuth = async (credential) => {
   const ticket = await client.verifyIdToken({
     idToken: credential,
-    audience: clientId,
+    audience: GOOGLE_CLIENT_ID,
   });
 
   const payload = ticket.getPayload();

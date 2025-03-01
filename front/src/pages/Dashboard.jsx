@@ -20,7 +20,7 @@ function Dashboard({ tasks, addTask, editTask, removeTask, fetchTasks, user }) {
   const { t } = useTranslation();
 
   const completedTasks = tasks?.filter(task => task.status === "Completed");
-  const percentageCompletedTasks = Math.round((completedTasks?.length / tasks?.length) * 100);
+  const percentageCompletedTasks = tasks.length === 0 ? 0 : Math.round((completedTasks?.length / tasks?.length) * 100);
 
   const handleOpenTaskForm = (task) => {
     setSelectedTask(task);

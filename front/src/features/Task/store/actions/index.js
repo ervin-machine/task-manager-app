@@ -80,7 +80,7 @@ export const addComment = (comment) => {
         dispatch(taskRequest(types.ADD_COMMENT_REQUEST));
         try {
             await createComment(comment);
-            dispatch(taskSuccess(types.ADD_COMMENT_SUCCESS, { comment: comment.comment}));
+            dispatch(taskSuccess(types.ADD_COMMENT_SUCCESS, { content: comment.content}));
         } catch (error) {
             dispatch(taskFailure(types.ADD_COMMENT_FAILURE, error));
         }

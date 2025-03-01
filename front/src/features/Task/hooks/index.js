@@ -6,7 +6,7 @@ export const createTask = (newTask) => {
 }
 
 export const updateTask = (id, updatedTask) => {
-    return api.put('task/', { id, updatedData: updatedTask });
+    return api.put(`task/${id}`, updatedTask);
 }
 
 export const deleteTask = (taskId) => {
@@ -25,5 +25,5 @@ export const getTask = (id) => {
 }
 
 export const createComment = (comment) => {
-    return api.post('task/add-comment', comment);
+    return api.post(`task/${comment.taskId}/add-comment`, { content: comment.content});
 }

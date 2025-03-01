@@ -8,8 +8,8 @@ export const userRegister = (newUser) => {
     return api.post('auth/register', newUser);
 }
 
-export const googleLogin = (clientID, credential) => {
-    return api.post('auth/google-auth', { client_id: clientID, credential });
+export const googleLogin = (credential) => {
+    return api.post('auth/google-auth', { credential });
 }
 
 export const userLogout = () => {

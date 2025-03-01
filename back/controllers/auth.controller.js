@@ -43,7 +43,6 @@ const googleLogin = catchAsync(async (req, res) => {
       secure: false,
       sameSite: "Strict",
     });
-    console.log(user, tokens);
     res.send({ user, tokens });
   } catch(err) {
     console.log("Error", err)

@@ -5,6 +5,7 @@ import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline';
 import getPriorityClass from '../../../utils/getPriorityClass';
 import convertDate from '../../../utils/convertDate';
 import { Draggable } from "@hello-pangea/dnd";
+import truncatText from '../../../utils/truncatText';
 
 const TaskCard = React.memo((props) => {
   const { task, handleOpenTaskForm, removeTask, index } = props;
@@ -32,7 +33,7 @@ const TaskCard = React.memo((props) => {
                   <Link to={`/detail/${task._id}`} className="w-full">
                     <div data-testid="card" className="flex flex-col items-start border-dashed border-2 rounded-lg bg-white w-full p-5 h-auto mt-2">
                       <h3 data-testid="title">{task.title}</h3>
-                      <p>{task.description}</p>
+                      <p className='text-left'>{truncatText(task.description)}</p>
                     </div>
                   </Link>
                   <TaskActions handleOpenTaskForm={handleOpenTaskForm} task={task} removeTask={removeTask} />

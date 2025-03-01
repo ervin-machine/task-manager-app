@@ -68,6 +68,8 @@ const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, 
               </PrivateRoute>
             }
           />
+
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Suspense>
     </Router>
@@ -84,7 +86,7 @@ const mapDispatchToProps = dispatch => ({
   registerUser: (newUser) => dispatch(registerUser(newUser)),
   loginUser: (existingUser) => dispatch(loginUser(existingUser)),
   getLoggedUser: () => dispatch(getLoggedUser()),
-  googleAuth: (clientID, credential) => dispatch(googleAuth(clientID, credential))
+  googleAuth: (credential) => dispatch(googleAuth(credential))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRoutes);

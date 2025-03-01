@@ -8,7 +8,7 @@ function GoogleAuth({ googleAuth }) {
     <GoogleOAuthProvider clientId={clientId}>
      <GoogleLogin
        onSuccess={credentialResponse => {
-         googleAuth(clientId, credentialResponse.credential)
+         googleAuth(credentialResponse.credential)
        }}
        onError={() => {
        }}

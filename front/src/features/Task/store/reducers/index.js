@@ -40,10 +40,10 @@ const taskReducer = (state = initialState, action) =>
                 }
             case types.UPDATE_TASK_SUCCESS:
                 {
-                    const index = draft.tasks.findIndex(task => task._id === action.payload.task.updatedTask._id);
+                    const index = draft.tasks.findIndex(task => task._id === action.payload.task._id);
                     if (index !== -1) {
-                        draft.task = action.payload.task.updatedTask
-                        draft.tasks[index] = action.payload.task.updatedTask;
+                        draft.task = action.payload.task
+                        draft.tasks[index] = action.payload.task;
                     }
                     draft.error = null;
                     break;
@@ -53,7 +53,7 @@ const taskReducer = (state = initialState, action) =>
             
                 draft.task = { 
                     ...draft.task, 
-                    comments: [...draft.task.comments, action.payload.comment]
+                    comments: [...draft.task.comments, action.payload.content]
                 };
                 
                 draft.error = null;

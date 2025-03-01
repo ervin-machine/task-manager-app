@@ -25,10 +25,9 @@ const getTasks = async (filter, options) => {
   }
 }
 
-const getTask = async (taskParams) => {
-  const { id } = taskParams
+const getTask = async (taskId) => {
   try {
-    const task = await Task.findById(id);
+    const task = await Task.findById(taskId);
     return task;
   } catch (err) {
     console.error("Error when getting task:", err);
@@ -36,10 +35,9 @@ const getTask = async (taskParams) => {
   }
 }
 
-const deleteTask = async (taskParams) => {
-  const { id } = taskParams;
+const deleteTask = async (taskId) => {
   try {
-    const task = await Task.findByIdAndDelete(id);
+    const task = await Task.findByIdAndDelete(taskId);
     if (!task) throw new ApiError(status.NOT_FOUND, "Task not found");
 
     logger.info(`Task deleted: ${task}`)
@@ -49,13 +47,12 @@ const deleteTask = async (taskParams) => {
   }
 }
 
-const updateTask = async (taskBody) => {
-  const { id, updatedData} = taskBody;
+const updateTask = async (taskId, taskBody) => {
   try {
-    delete updatedData._id;
+    delete taskBody._id;
     const updatedTask = await Task.findOneAndUpdate(
-      { _id: new mongoose.Types.ObjectId(id) },
-      { $set: updatedData },
+      { _id: new mongoose.Types.ObjectId(taskId) },
+      { $set: taskBody },
       { new: true }
   );
 
@@ -71,15 +68,14 @@ const updateTask = async (taskBody) => {
   }
 }
 
-const addComment = async (taskBody) => {
-  const { comment } = taskBody;
+const addComment = async (taskId, content) => {
 
   try {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new Error(`Invalid ObjectId: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      throw new Error(`Invalid ObjectId: ${taskId}`);
     }
 
-    const task = await Task.findById(id);
+    const task = await Task.findById(taskId);
     
     if (!task) {
       throw new Error(`Task not found`);
@@ -89,7 +85,7 @@ const addComment = async (taskBody) => {
       task.comments = [];
     }
 
-    task.comments.push(comment);
+    task.comments.push(content);
     await task.save();
   } catch (err) {
     console.error("Error when adding comment:", err);

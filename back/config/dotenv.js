@@ -9,5 +9,6 @@ module.exports = {
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
-    EMAIL_FROM: process.env.EMAIL_FROM
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
 }   
