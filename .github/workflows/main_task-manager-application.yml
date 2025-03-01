@@ -2,11 +2,7 @@
 
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-
-
 name: Build and deploy Node.js app to Azure Web App - task-manager-application
-
-
 
 on:
   push:
@@ -18,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read # This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -30,14 +26,14 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          cd back
+          cd back  # Move into the back folder where package.json is located
           npm install
           npm run build --if-present
           npm run test --if-present
 
       - name: Zip artifact for deployment
         run: |
-          cd back
+          cd back  # Ensure you're zipping the files from the correct directory
           zip -r ../release.zip .
 
       - name: Upload artifact for deployment job
@@ -54,9 +50,8 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
+      id-token: write # This is required for requesting the JWT
+      contents: read # This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -70,9 +65,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZURE_CLIENTID }}
+          tenant-id: ${{ secrets.AZURE_TENANTID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -80,4 +75,4 @@ jobs:
         with:
           app-name: 'task-manager-application'
           slot-name: 'Production'
-          package: .
+          package: .  # Deploy the entire extracted content from release.zip
