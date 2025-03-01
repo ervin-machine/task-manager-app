@@ -3,10 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import registerSchema from '../schemas/registerSchema';
+import GoogleAuth from './GoogleAuth';
 
-function Register({ registerUser }) {
+function Register({ registerUser, googleAuth, error }) {
   const { t } = useTranslation()
-
+  
   const handleSubmit = (values, { setSubmitting }) => {
     registerUser(values);
     setSubmitting(false);
@@ -22,6 +23,7 @@ function Register({ registerUser }) {
         >
           {({ isSubmitting }) => (
             <Form className="bg-white p-8 shadow-md rounded-lg lg:max-w-md w-full">
+              <GoogleAuth googleAuth={googleAuth} />
               <h3 className="text-gray-800 text-2xl font-bold mb-6">{t('createAccount')}</h3>
               <div className="space-y-4">
                 <div>
@@ -43,6 +45,7 @@ function Register({ registerUser }) {
               <button type="submit" className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-md transition dark:bg-[#76ABAE] dark:text-black" disabled={isSubmitting}>
                 {t('register')}
               </button>
+              <p>{error === "Refresh token not found" ? "" : error }</p>
               <p className="text-sm text-gray-800 mt-4">
                 {t('alreadyHaveAccount')} <Link to="/login" className="text-indigo-600 font-semibold hover:underline">{t('loginHere')}</Link>
               </p>

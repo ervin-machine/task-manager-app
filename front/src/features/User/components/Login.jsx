@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import loginSchema from '../schemas/loginSchema';
 import GoogleAuth from './GoogleAuth';
 
-function Login({ loginUser, googleAuth }) {
+function Login({ loginUser, googleAuth, error }) {
   const { t } = useTranslation()
 
   const handleSubmit = (values) => {
@@ -53,7 +53,7 @@ function Login({ loginUser, googleAuth }) {
               <button type="submit" className="mt-4 w-full bg-indigo-600 text-white py-3 rounded-md transition dark:bg-[#76ABAE] dark:text-black">
                 {t('login')}
               </button>
-
+              <p>{error === "Refresh token not found" ? "" : error }</p>
               <p className="text-sm text-gray-800 mt-4">
                 {t('dontHaveAccout')} <Link to="/register" className="text-indigo-600 font-semibold hover:underline">{t('registerHere')}</Link>
               </p>

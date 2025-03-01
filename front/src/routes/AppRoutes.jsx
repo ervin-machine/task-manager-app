@@ -1,8 +1,8 @@
-import React, { useEffect, lazy, Suspense, memo, useState } from 'react';
+import React, { useEffect, lazy, Suspense, memo } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectToken, selectUser, selectIsLoading } from '../features/User/store/selectors';
+import { selectToken, selectUser, selectIsLoading, selectError } from '../features/User/store/selectors';
 import { registerUser, loginUser, googleAuth, getLoggedUser } from '../features/User/store/actions';
 
 // Lazy Loading Components
@@ -15,15 +15,18 @@ const PrivateRoute = memo(({ token, children }) => {
   return token ? children : <Navigate to="/login" />;
 });
 
+
 const PublicRoute = memo(({ token, children }) => {
   return token ? <Navigate to="/dashboard" /> : children;
 });
 
-const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, isLoading }) => {
+const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, isLoading, error }) => {
 
   useEffect(() => {
-    getLoggedUser()
+    getLoggedUser();
   }, []);
+  
+  
   
   if (isLoading) {
     return <div>Loading authentication...</div>;
@@ -38,7 +41,7 @@ const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, 
             path="/register"
             element={
               <PublicRoute token={token}>
-                <Register registerUser={registerUser} />
+                <Register registerUser={registerUser} googleAuth={googleAuth} error={error} />
               </PublicRoute>
             }
           />
@@ -46,7 +49,7 @@ const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, 
             path="/login"
             element={
               <PublicRoute token={token}>
-                <Login loginUser={loginUser} googleAuth={googleAuth} />
+                <Login loginUser={loginUser} googleAuth={googleAuth} error={error} />
               </PublicRoute>
             }
           />
@@ -68,7 +71,7 @@ const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, 
               </PrivateRoute>
             }
           />
-
+          
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Suspense>
@@ -79,7 +82,8 @@ const AppRoutes = ({ token, registerUser, loginUser, googleAuth, getLoggedUser, 
 const mapStateToProps = createStructuredSelector({
   token: selectToken(),
   user: selectUser(),
-  isLoading: selectIsLoading()
+  isLoading: selectIsLoading(),
+  error: selectError()
 });
 
 const mapDispatchToProps = dispatch => ({

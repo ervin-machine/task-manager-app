@@ -25,7 +25,7 @@ const userReducer = (state = initialState, action) =>
             case types.LOGIN_USER_FAILURE:
             case types.REGISTER_USER_FAILURE:
                 draft.isLoading = false;
-                draft.error = action.payload.err;
+                draft.error = action.payload;
                 break;
             case types.LOGOUT_USER_REQUEST:
                 draft.isLoading = true;
