@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - task-manager-application
 
 on:
@@ -62,15 +58,11 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
       
-      - name: Login to Azure
+      - name: Login to Azure using Federated Identity
         uses: azure/login@v2
         with:
           identity: true
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
           allow-no-subscriptions: true
-          auth-type: IDENTITY
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
