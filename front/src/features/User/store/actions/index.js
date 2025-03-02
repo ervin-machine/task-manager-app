@@ -24,7 +24,6 @@ export const registerUser = (newUser) => {
 
             dispatch(authSuccess(types.REGISTER_USER_SUCCESS, { token: tokens.access, user }));
         } catch (err) {
-            console.log(typeof err.response.data)
             const match = err.response.data.match(/Error: (.*?)<br>/);
             const errorMessage = match ? match[1] : "";
             dispatch(authFailure(types.REGISTER_USER_FAILURE, errorMessage));
@@ -84,7 +83,6 @@ export const getLoggedUser = () => {
 
             dispatch(authSuccess(types.LOGIN_USER_SUCCESS, { token: access.token, user }));
         } catch (err) {
-            console.log(err)
             const match = err.response.data.match(/Error: (.*?)<br>/);
             const errorMessage = match ? match[1] : "";
             dispatch(authFailure(types.LOGIN_USER_FAILURE, errorMessage));
