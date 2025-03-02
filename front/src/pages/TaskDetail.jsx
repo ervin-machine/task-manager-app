@@ -53,9 +53,6 @@ function TaskDetail(props) {
                 {t('taskCategory')}: {task?.category}
             </div>
             <div className='text-gray-600 dark:text-white'>
-                {t('taskProgress')}: {task?.percentage}
-            </div>
-            <div className='text-gray-600 dark:text-white'>
                 {t('taskDesc')}:
                 <p className='border-2 border-gray-300 p-4 ml-20'>{task?.description}</p>
             </div>

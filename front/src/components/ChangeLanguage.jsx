@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+import { Bars3BottomLeftIcon } from "@heroicons/react/16/solid";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from 'react-i18next';
-import { Languages } from "../constants/initialValues";
 
 const ChangeLanguage = () => {
   const [openLanguage, setOpenLanguage] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = (e) => {
-    i18n.changeLanguage(e.target.value);
-    localStorage.setItem("language", e.target.value)
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng)
   };
 
   const handleOpenLanguage = () => {
@@ -31,16 +31,9 @@ const ChangeLanguage = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   className="absolute z-20 flex flex-col top-12 left-0 border border-gray-300 rounded-md shadow-md bg-indigo-400 w-40 p-3 dark:bg-teal-600"
                 >
-                  <select
-                    id="priority"
-                    className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
-                    name="priority"
-                    onChange={changeLanguage}
-                  >
-                    {Languages.map((language) => (
-                      <option key={language.id} value={language.short}>{language.name}</option>
-                    ))}
-                  </select>
+                  <button onClick={() => changeLanguage('en')}>{t('english')}</button>
+                  <button onClick={() => changeLanguage('it')}>{t('italy')}</button>
+                  <button onClick={() => changeLanguage('de')}>{t('germany')}</button>
                 </motion.div>
                 )}
             </AnimatePresence>
