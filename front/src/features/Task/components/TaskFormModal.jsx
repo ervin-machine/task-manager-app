@@ -4,7 +4,6 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 import { statuses, priorities, categories } from '../../../constants/initialValues';
 import taskValidationSchema from '../schemas/taskSchema';
-import convertDate from '../../../utils/convertDate';
 import { useTranslation } from 'react-i18next';
 
 const TaskFormModal = (props) => {
@@ -17,7 +16,7 @@ const TaskFormModal = (props) => {
     if (isNewTask) {
       addTask({ createdBy: userID, ...values });
     }
-    else editTask(selectedTask._id, values);
+    else editTask(selectedTask?._id, values);
     setOpen();
   };
 
@@ -47,8 +46,8 @@ const TaskFormModal = (props) => {
                     <Formik
                       initialValues={
                         isNewTask
-                          ? { title: '', description: '', status: statuses[0].name, priority: priorities[0]?.name, category: categories[0]?.name, dueDate: convertDate(new Date()), comments: [] }
-                          : {...selectedTask, dueDate: convertDate(selectedTask?.dueDate)}
+                          ? { title: '', description: '', status: statuses[0].name, priority: priorities[0]?.name, category: categories[0]?.name, dueDate: new Date().toISOString().split('T')[0], comments: [] }
+                          : {...selectedTask, dueDate: selectedTask?.dueDate?.split("T")[0]}
                       }
                       validationSchema={taskValidationSchema}
                       onSubmit={handleSubmit}
