@@ -45,7 +45,6 @@ const sendReminderEmail = async () => {
     }
 };
 
-// Run at 8 PM daily
 const startReminderJob = () => {
     cron.schedule("0 09 * * *", async () => {
         console.log("Running reminder email check at 9 AM...");

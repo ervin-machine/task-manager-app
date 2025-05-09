@@ -26,7 +26,7 @@ const startServer = async () => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    app.use(cookieParser()); // ✅ Enables reading HttpOnly cookies
+    app.use(cookieParser()); 
 
     // parse urlencoded request body
     app.use(express.urlencoded({ extended: true }));
@@ -39,7 +39,7 @@ const startServer = async () => {
     app.use(compression());
 
     // enable cors
-    app.use(cors({origin: "http://localhost:5173", credentials: true }));
+    app.use(cors({origin: "https://task-manager-app-eosin-nine.vercel.app", credentials: true }));
     app.options('*', cors());
     // jwt authentication
     app.use(passport.initialize());

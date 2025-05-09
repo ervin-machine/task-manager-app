@@ -3,6 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService } = require('../services');
 const { tokenTypes } = require('../config/tokens');
 const { Token } = require('../models');
+const { NODE_ENV } = require("../config/dotenv")
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -10,7 +11,7 @@ const register = catchAsync(async (req, res) => {
 
   res.cookie("refreshToken", tokens.refresh.token, {
     httpOnly: true,
-    secure: false,
+    secure: NODE_ENV === "production",
     sameSite: "Strict",
   });
 
@@ -25,7 +26,7 @@ const login = catchAsync(async (req, res) => {
 
   res.cookie("refreshToken", tokens.refresh.token, {
     httpOnly: true,
-    secure: false,
+    secure: NODE_ENV === "production",
     sameSite: "Strict",
   });
 
@@ -39,7 +40,7 @@ const googleLogin = catchAsync(async (req, res) => {
 
     res.cookie("refreshToken", tokens.refresh.token, {
       httpOnly: true,
-      secure: false,
+      secure: NODE_ENV === "production",
       sameSite: "Strict",
     });
     res.send({ user, tokens });
@@ -83,7 +84,7 @@ const getMe = catchAsync(async (req, res) => {
 
   res.cookie("refreshToken", newTokens.refresh, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: NODE_ENV === "production",
       sameSite: "Strict",
   });
 
